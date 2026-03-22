@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>同心圆 · 内外缩放动画</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(145deg, #2b3a4a 0%, #1d2a35 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(4px);
+            border-radius: 3rem;
+            padding: 3rem 2rem;
+            box-shadow: 0 25px 40px -10px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+
+        .circle-stage {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.75);
+            box-shadow: 0 0 18px rgba(255, 215, 0, 0.5), inset 0 -4px 8px rgba(0,0,0,0.2);
+            border: 2px solid rgba(255, 245, 190, 0.7);
+            backdrop-filter: blur(1px);
+            will-change: width, height;
+        }
+
+
+        .outer {
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 140, 0, 0.7);     /* 橙色调，与外圈区分 */
+            box-shadow: 0 0 30px #ffb347;
+            border-color: rgba(255, 220, 150, 0.9);
+
+            animation: outerPulse 5000ms ease-in-out infinite;
+        }
+
+        /* 内圆 —— 常规大小 120x120 */
+        .inner {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 224, 0.9);  /* 温柔的淡黄 */
+            box-shadow: 0 0 35px #ffe68f, inset 0 -2px 10px #f3a953;
+            border-color: #fff3cf;
+
+            animation: innerScale 5000ms ease-in-out infinite;
+        }
+
+
+        @keyframes outerPulse {
+            0% {
+                width: 200px;
+                height: 200px;
+                opacity: 0.8;
+                background: rgba(255, 140, 0, 0.7);
+            }
+            /* 用40%代表2000ms (5000ms * 0.4 = 2000ms) 扩大完成 */
+            40% {
+                width: 210px;        /* 向外扩大10px */
+                height: 210px;
+                opacity: 1;
+                background: rgba(255, 160, 30, 0.85);
+            }
+            /* 维持扩大到周期结束前，在最后瞬间复位(或下一周期0%复位) 循环自然重置 */
+            100% {
+                width: 210px;        /* 保持扩大状态直到末尾，下一周期0%跳回200(动画重置) */
+                height: 210px;
+
+            95% {
+                width: 210px;
+                height: 210px;
+            }
+            100% {
+                width: 200px;
+                height: 200px;
+                background: rgba(255, 140, 0, 0.7);
+            }
+        }
+
+        /* 内圆关键帧 */
+        @keyframes innerScale {
+            0% {
+                width: 120px;
+                height: 120px;
+                background: rgba(255, 255, 224, 0.9);
+            }
+            /* 内圆向内缩回正常大小？ 这个描述理解为向内收缩变小 → 从常规120缩小到更小尺寸 比如100 */
+            40% {                     /* 2000ms 对应完成向内缩小 */
+                width: 100px;         /* 缩小20px，视觉明显“内缩” */
+                height: 100px;
+                background: rgba(255, 240, 170, 0.95);
+            }
+            /* 内圆放大至常规大小(2500ms) —— 从40%开始到90% (50%时长=2500ms) 从100放大到120 */
+            90% {
+                width: 120px;
+                height: 120px;
+                background: rgba(255, 255, 210, 1);
+            }
+            100% {
+                width: 120px;         /* 保持常规，与下一周期0%衔接 */
+                height: 120px;
+            }
+        }
+
+        /* 额外点缀：微标尺说明 */
+        .legend {
+            margin-top: 2rem;
+            color: #d9e2ef;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.7rem 1.5rem;
+            border-radius: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,215,0,0.2);
+        }
+
+        .legend span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend i {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #ff8c00;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .legend i.inner-i {
+            background: #ffffe0;
+        }
+        .timing-note {
+            color: #b6c8db;
+            font-size: 0.8rem;
+            text-align: center;
+            margin-top: 0.8rem;
+            background: rgba(0,0,0,0.2);
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="circle-stage">
+            <!-- 外圆 -->
+            <div class="circle outer"></div>
+            <!-- 内圆 -->
+            <div class="circle inner"></div>
+            <div style="position: absolute; width: 10px; height: 10px; background: white; border-radius: 50%; opacity: 0.6; box-shadow: 0 0 12px gold; z-index: 10;"></div>
+        </div>
+        <div class="timing-note">
+
+        </div>
+
+    </div>
+</body>
+</html>

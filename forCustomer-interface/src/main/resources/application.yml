@@ -1,0 +1,13 @@
+#spring.application.name=forCustomer-interface
+server:
+  port: 8123
+  servlet:
+    context-path: /api
+
+api:
+  client:
+    access-key: "shushu123"     # accessKey 属性
+    secret-key: "asdadfgdsfsa"     # secretKey 属性
+
+
+
