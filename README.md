@@ -21,23 +21,23 @@ API 开放平台是一个提供 API 接口供开发者调用的平台，基于 S
 
 ## 项目结构
 apiOpenSystem/
-├── api-gateway/ # API 网关
-│ └── 基于 Spring Cloud Gateway，使用 Nacos 作为注册中心，负责请求路由、流量分发
-│
-├── client-sdk/ # 客户端 SDK
-│ └── 用户签名加密模块，用于验证用户身份信息是否正确
-│
-├── forCustomer-interface/ # 接口验证模块
-│ └── 后台验证校验数字签名的正确性
-│
-├── shushu-common/ # 公共模块
-│ └── 公共方法、工具类、实体类，供其他模块调用
-│
-├── shushuapi/ # 前端项目
-│ └── 基于 React 开发的用户界面
-│
-└── springboot-init-api/ # 主程序模块
-└── 核心业务逻辑，负责数据库操作、接口管理等
+  ├── api-gateway/ # API 网关
+  │ └── 基于 Spring Cloud Gateway，使用 Nacos 作为注册中心，负责请求路由、流量分发
+  │
+  ├── client-sdk/ # 客户端 SDK
+  │ └── 用户签名加密模块，用于验证用户身份信息是否正确
+  │
+  ├── forCustomer-interface/ # 接口验证模块
+  │ └── 后台验证校验数字签名的正确性
+  │
+  ├── shushu-common/ # 公共模块
+  │ └── 公共方法、工具类、实体类，供其他模块调用
+  │
+  ├── shushuapi/ # 前端项目
+  │ └── 基于 React 开发的用户界面
+  │
+  └── springboot-init-api/ # 主程序模块
+  └── 核心业务逻辑，负责数据库操作、接口管理等
 
 ## 核心功能
 
